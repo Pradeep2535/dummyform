@@ -1,3 +1,7 @@
+.cam{
+    height : 200px;
+}
+
 a:focus{
     outline: none;
 }
