@@ -8,7 +8,60 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css">
     <script src="https://kit.fontawesome.com/2282f5cf42.js" crossorigin="anonymous"></script>
     
-     <div class="container">
+    <!-- changed -->
+    <script src="https://aframe.io/releases/1.2.0/aframe.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/gh/AR-js-org/AR.js@3.3.2/aframe/build/aframe-ar.js"></script>
+    <script>
+        AFRAME.registerComponent('gesture-detector', {
+          schema: {
+            element: { type: 'selector' }
+          },
+          init: function () {
+            this.handleGesture = this.handleGesture.bind(this);
+            this.el.sceneEl.addEventListener('onefingermove', this.handleGesture);
+          },
+          handleGesture: function (event) {
+            const element = this.data.element;
+            if (!element) return;
+            
+            const rotation = element.getAttribute('rotation');
+            rotation.y += event.detail.positionChange.x * 0.5;
+            rotation.x -= event.detail.positionChange.y * 0.5;
+            element.setAttribute('rotation', rotation);
+          }
+        });
+      </script>
+</head>
+
+    
+    
+    
+    
+  
+  <body style="margin: 0; overflow: hidden;">
+    <a-scene embedded arjs="sourceType: webcam; debugUIEnabled: false;">
+      <!-- Define the camera -->
+      <a-camera position="0 0 0" look-controls-enabled="true"></a-camera>
+      
+      <!-- Add lighting -->
+      <a-light type="ambient" color="#888"></a-light>
+      <a-light type="directional" position="1 1 0" intensity="0.5"></a-light>
+      
+      <!-- Container for the 3D model, initially hidden -->
+      <a-entity id="modelContainer" visible="false" gesture-detector="element: #modelContainer">
+        <a-box position="0 0.5 -2" rotation="0 90 0" color="red" shadow></a-box>
+      </a-entity>
+    
+    
+    <script>
+      document.querySelector('a-scene').addEventListener('click', function () {
+        const modelContainer = document.getElementById('modelContainer');
+        modelContainer.setAttribute('visible', true);
+      });
+    </script>
+  
+
+    <div class="container">
         <div class="row">
             <div class="col-12">
                 <div class="containers">
@@ -402,6 +455,7 @@
             </div>
         </div>
     </div>
+</a-scene>
     <script src="../scripts/main.js"></script>
 </body>
 </html>
