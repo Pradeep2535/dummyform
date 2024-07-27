@@ -50,7 +50,7 @@
     // Set up the video stream with back camera
     const video = document.getElementById('video');
     navigator.mediaDevices.getUserMedia({ 
-      video: { facingMode: { exact: 'environment' } } 
+      video: { facingMode: { ideal: 'environment' } } 
     }).then(stream => {
       video.srcObject = stream;
       video.play();
